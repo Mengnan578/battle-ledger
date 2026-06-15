@@ -1,0 +1,56 @@
+{
+  "name": "battle-ledger",
+  "productName": "BattleLedger",
+  "private": true,
+  "version": "0.1.0-demo.1",
+  "description": "Electron desktop assistant for Delta players to identify teammate history and battle relationships.",
+  "author": "BattleLedger Team",
+  "type": "module",
+  "main": "electron/main.mjs",
+  "scripts": {
+    "dev": "concurrently -k \"npm:dev:renderer\" \"npm:dev:electron\"",
+    "dev:renderer": "vite --host 127.0.0.1 --port 5173 --strictPort",
+    "dev:electron": "wait-on tcp:5173 && electronmon .",
+    "start": "npm run build && electron .",
+    "build": "tsc -b && vite build",
+    "dist:win": "npm run build && electron-builder --win nsis --publish never",
+    "website:build": "npm --prefix website run build",
+    "release:manifest": "node scripts/generate-release-manifest.mjs",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "electronmon": {
+    "patterns": [
+      "!data",
+      "!data/**/*",
+      "!dist",
+      "!dist/**/*"
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2",
+    "fuse.js": "^7.4.2",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "sql.js": "^1.14.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.12.3",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^10.0.3",
+    "electron": "^42.4.0",
+    "electron-builder": "^26.0.12",
+    "electronmon": "^2.0.4",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "typescript": "~6.0.2",
+    "typescript-eslint": "^8.59.2",
+    "vite": "^8.0.12",
+    "wait-on": "^9.0.10"
+  }
+}

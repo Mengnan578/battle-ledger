@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0-demo.1",
+  "channel": "demo",
+  "publishedAt": "2026-06-14T17:49:28.927Z",
+  "downloadUrl": "https://github.com/Mengnan578/battle-ledger/releases/download/v0.1.0-demo.1/BattleLedger-Setup-0.1.0-demo.1.exe",
+  "fileName": "BattleLedger-Setup-0.1.0-demo.1.exe",
+  "fileSize": "待发布",
+  "notes": [
+    "新增桌宠入口",
+    "新增轻量搜索",
+    "新增详情页"
+  ],
+  "checksum": "",
+  "releasePageUrl": "https://github.com/Mengnan578/battle-ledger/releases/tag/v0.1.0-demo.1"
+}

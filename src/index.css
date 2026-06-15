@@ -1,0 +1,53 @@
+:root {
+  font-family:
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
+    'Noto Sans SC',
+    sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #dbeafe;
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.22), transparent 42%),
+    linear-gradient(180deg, #07111f 0%, #0b1220 100%);
+  --bg: #0b1220;
+  --panel-bg: rgba(10, 18, 32, 0.78);
+  --soft-bg: rgba(15, 23, 42, 0.48);
+  --border: rgba(148, 163, 184, 0.16);
+  --text: rgba(191, 219, 254, 0.86);
+  --text-soft: rgba(148, 163, 184, 0.88);
+  --text-h: #eff6ff;
+  --panel-shadow:
+    0 24px 48px rgba(2, 6, 23, 0.34),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  color: var(--text);
+  background:
+    radial-gradient(circle at top, rgba(37, 99, 235, 0.22), transparent 42%),
+    linear-gradient(180deg, #07111f 0%, #0b1220 100%);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

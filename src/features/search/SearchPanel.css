@@ -1,0 +1,209 @@
+html:has(.search-panel-page),
+body:has(.search-panel-page),
+#root:has(.search-panel-page) {
+  background: transparent !important;
+}
+
+body:has(.search-panel-page) {
+  overflow: hidden;
+}
+
+.search-panel-page {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+  display: grid;
+  align-content: start;
+}
+
+.search-panel-page--compact {
+  align-content: center;
+}
+
+.search-panel-card {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  padding: 14px;
+  border-radius: 24px;
+  background:
+    radial-gradient(circle at top right, rgba(96, 165, 250, 0.12), transparent 32%),
+    linear-gradient(180deg, rgba(11, 18, 34, 0.82), rgba(8, 13, 25, 0.8));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 18px 42px rgba(2, 6, 23, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+
+.search-panel-card--compact {
+  height: auto;
+  grid-template-rows: auto;
+}
+
+.search-toolbar {
+  display: block;
+}
+
+.search-input--solo {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  background: rgba(13, 20, 36, 0.76);
+  color: var(--text-h);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 8px 20px rgba(2, 6, 23, 0.18);
+}
+
+.relation-badge--teammate,
+.relation-card__accent--teammate {
+  color: #bfdbfe;
+  background: rgba(59, 130, 246, 0.16);
+}
+
+.relation-preview--killed-me .relation-preview__label,
+.relation-badge--killed-me,
+.relation-card__accent--killed_me {
+  color: #fecaca;
+  background: rgba(239, 68, 68, 0.16);
+}
+
+.relation-preview--killed-by-me .relation-preview__label,
+.relation-badge--killed-by-me,
+.relation-card__accent--killed_by_me {
+  color: #bbf7d0;
+  background: rgba(34, 197, 94, 0.16);
+}
+
+.search-results {
+  display: grid;
+  gap: 12px;
+  overflow: auto;
+  padding-right: 4px;
+  min-height: 0;
+}
+
+.relation-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.relation-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.relation-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  background: rgba(10, 16, 30, 0.62);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.relation-card--teammate {
+  background:
+    radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 30%),
+    rgba(10, 16, 30, 0.72);
+}
+
+.relation-card--killed_me {
+  background:
+    radial-gradient(circle at top right, rgba(239, 68, 68, 0.14), transparent 30%),
+    rgba(10, 16, 30, 0.72);
+}
+
+.relation-card--killed_by_me {
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.14), transparent 30%),
+    rgba(10, 16, 30, 0.72);
+}
+
+.relation-card__header,
+.relation-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.relation-card__identity {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.relation-card__accent {
+  display: inline-flex;
+  width: fit-content;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.relation-card__identity strong {
+  color: var(--text-h);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.relation-card__detail,
+.search-result--empty span {
+  color: var(--text-soft);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.relation-card__body {
+  display: grid;
+  gap: 6px;
+}
+
+.relation-card__summary {
+  color: #f8fbff;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.search-result__action {
+  flex-shrink: 0;
+  border-color: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.search-result--empty {
+  display: grid;
+  place-items: center;
+  gap: 10px;
+  min-height: 180px;
+  text-align: center;
+  border-radius: 24px;
+  border: 1px dashed rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.24);
+}
+
+@media (max-width: 980px) {
+  .relation-card__header,
+  .relation-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

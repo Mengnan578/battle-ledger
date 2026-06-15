@@ -1,0 +1,102 @@
+name: Release BattleLedger
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 发布版本号，例如 0.1.0-demo.1
+        required: true
+        default: 0.1.0-demo.1
+      title:
+        description: 本次发布标题
+        required: true
+        default: 首个公开 Demo
+      notes:
+        description: 更新内容，使用 | 分隔
+        required: true
+        default: 新增桌宠入口|新增轻量搜索|新增详情页
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            website/package-lock.json
+
+      - name: Install desktop dependencies
+        run: npm ci
+
+      - name: Install website dependencies
+        run: npm --prefix website ci
+
+      - name: Sync package version
+        shell: bash
+        run: npm version "${{ github.event.inputs.version }}" --no-git-tag-version
+
+      - name: Build renderer
+        run: npm run build
+
+      - name: Package Windows installer
+        run: npx electron-builder --config electron-builder.json --win nsis --publish never
+
+      - name: Prepare release metadata
+        id: meta
+        shell: bash
+        run: |
+          VERSION="${{ github.event.inputs.version }}"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "RELEASE_VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "RELEASE_TITLE=${{ github.event.inputs.title }}" >> "$GITHUB_ENV"
+          echo "RELEASE_NOTES=${{ github.event.inputs.notes }}" >> "$GITHUB_ENV"
+          echo "RELEASE_DOWNLOAD_URL=https://github.com/${{ github.repository }}/releases/download/v${VERSION}/BattleLedger-Setup-${VERSION}.exe" >> "$GITHUB_ENV"
+          echo "RELEASE_PAGE_URL=https://github.com/${{ github.repository }}/releases/tag/v${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Generate release manifest
+        run: npm run release:manifest
+
+      - name: Build website
+        shell: bash
+        run: |
+          export VITE_BASE_PATH="/${{ github.event.repository.name }}/"
+          npm --prefix website run build
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.meta.outputs.version }}
+          name: ${{ github.event.inputs.title }}
+          body: ${{ github.event.inputs.notes }}
+          files: |
+            release/*.exe
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: website/dist
+
+  deploy-pages:
+    needs: build-release
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
