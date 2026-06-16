@@ -1,5 +1,8 @@
 name: Release BattleLedger
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
     inputs:
@@ -28,12 +31,12 @@ jobs:
       version: ${{ steps.meta.outputs.version }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -47,7 +50,22 @@ jobs:
 
       - name: Sync package version
         shell: bash
-        run: npm version "${{ github.event.inputs.version }}" --no-git-tag-version
+        run: |
+          TARGET_VERSION="${{ github.event.inputs.version }}"
+          CURRENT_VERSION="$(node -p "require('./package.json').version")"
+          WEBSITE_VERSION="$(node -p "require('./website/package.json').version")"
+
+          if [ "$CURRENT_VERSION" != "$TARGET_VERSION" ]; then
+            npm version "$TARGET_VERSION" --no-git-tag-version
+          else
+            echo "Desktop version already set to $TARGET_VERSION, skipping."
+          fi
+
+          if [ "$WEBSITE_VERSION" != "$TARGET_VERSION" ]; then
+            npm --prefix website version "$TARGET_VERSION" --no-git-tag-version
+          else
+            echo "Website version already set to $TARGET_VERSION, skipping."
+          fi
 
       - name: Build renderer
         run: npm run build
