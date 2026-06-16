@@ -1,4 +1,4 @@
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom'
+import { HashRouter, NavLink, Route, Routes } from 'react-router-dom'
 
 import { ChangelogPage } from '@/pages/Changelog'
 import { DownloadPage } from '@/pages/Download'
@@ -40,7 +40,7 @@ function SiteLayout({ children }: { children: React.ReactNode }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <SiteLayout>
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -48,6 +48,6 @@ export default function App() {
           <Route path="/changelog" element={<ChangelogPage />} />
         </Routes>
       </SiteLayout>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

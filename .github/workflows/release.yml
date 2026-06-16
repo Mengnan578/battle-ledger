@@ -89,10 +89,9 @@ jobs:
         run: npm run release:manifest
 
       - name: Build website
-        shell: bash
-        run: |
-          export VITE_BASE_PATH="/${{ github.event.repository.name }}/"
-          npm --prefix website run build
+        env:
+          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+        run: npm --prefix website run build
 
       - name: Upload release assets
         uses: softprops/action-gh-release@v2

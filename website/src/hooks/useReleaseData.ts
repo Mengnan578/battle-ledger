@@ -21,10 +21,11 @@ export function useReleaseData() {
 
   useEffect(() => {
     let active = true
+    const basePath = import.meta.env.BASE_URL
 
     Promise.all([
-      fetch('/releases/latest.json').then((response) => response.json() as Promise<ReleaseManifest>),
-      fetch('/releases/changelog.json').then((response) => response.json() as Promise<ChangelogItem[]>),
+      fetch(`${basePath}releases/latest.json`).then((response) => response.json() as Promise<ReleaseManifest>),
+      fetch(`${basePath}releases/changelog.json`).then((response) => response.json() as Promise<ChangelogItem[]>),
     ])
       .then(([latest, changelog]) => {
         if (!active) {
